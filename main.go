@@ -2,6 +2,7 @@ package main
 
 import (
 	"Book-Inventory/app"
+	"Book-Inventory/auth"
 	"Book-Inventory/db"
 
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,13 @@ func main() {
 	handler := app.New(conn)
 
 	// home
+	router.GET("/", auth.HomeHandler)
+
+	// login
+	router.GET("/login", auth.LoginGetHandler)
+	router.POST("/login", auth.LoginPostHandler)
+
+	// get all Books
 	router.GET("/books", handler.GetBooks)
 
 	router.Run()
