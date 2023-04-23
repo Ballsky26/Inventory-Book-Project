@@ -5,8 +5,11 @@ import (
 	"log"
 	"os"
 
+	_ "database/sql"
+
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 func InitDB() *gorm.DB {
@@ -14,11 +17,15 @@ func InitDB() *gorm.DB {
 	if err != nil {
 		log.Fatal("Error load env")
 	}
+
 	conn := os.Getenv("POSTGRES_URL")
 	db, err := gorm.Open("postgres", conn)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	Migrate(db)
+
 	return db
 }
 
